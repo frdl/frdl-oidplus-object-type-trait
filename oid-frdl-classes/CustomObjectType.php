@@ -1,10 +1,48 @@
 <?php
 namespace frdl\OIDplus;
 
+use OIDplus;
+use OIDplusObject;
+
 
 trait CustomObjectType
 {
 
+	
+	
+protected function getRelativePath($from, $to){
+    // some compatibility fixes for Windows paths
+    $from = is_dir($from) ? rtrim($from, \DIRECTORY_SEPARATOR) .  \DIRECTORY_SEPARATOR : $from;
+    $to   = is_dir($to)   ? rtrim($to,  \DIRECTORY_SEPARATOR) .  \DIRECTORY_SEPARATOR   : $to;
+    $from = str_replace('\\',  \DIRECTORY_SEPARATOR, $from);
+    $to   = str_replace('\\',  \DIRECTORY_SEPARATOR, $to);
+
+    $from     = explode( \DIRECTORY_SEPARATOR, $from);
+    $to       = explode( \DIRECTORY_SEPARATOR, $to);
+    $relPath  = $to;
+
+    foreach($from as $depth => $dir) {
+        // find first non-matching dir
+        if($dir === $to[$depth]) {
+            // ignore this directory
+            array_shift($relPath);
+        } else {
+            // get number of remaining dirs to $from
+            $remaining = count($from) - $depth;
+            if($remaining > 1) {
+                // add traversals up to first matching dir
+                $padLength = (count($relPath) + $remaining - 1) * -1;
+                $relPath = array_pad($relPath, $padLength, '..');
+                break;
+            } else {
+                $relPath[0] = '.'. \DIRECTORY_SEPARATOR . $relPath[0];
+            }
+        }
+    }
+    return implode( \DIRECTORY_SEPARATOR, $relPath);
+}	
+	
+	
 	public function getDirectoryName() {
 		if ($this->isRoot()) return $this->ns();
 		//return $this->ns().'_'.md5($this->nodeId(false));
@@ -45,7 +83,7 @@ trait CustomObjectType
 	
 		
 		
-		return \webfan\hps\patch\Fs::getRelativePath(getcwd().\DIRECTORY_SEPARATOR.'userdata'.\DIRECTORY_SEPARATOR.'attachments.\DIRECTORY_SEPARATOR', $dir);
+		return $this->getRelativePath(getcwd().\DIRECTORY_SEPARATOR.'userdata'.\DIRECTORY_SEPARATOR.'attachments.\DIRECTORY_SEPARATOR', $dir);
 	}
 	
 
