@@ -6,9 +6,18 @@ trait CustomObjectType
 {
 
 	public function getDirectoryName() {
-	//	if ($this->isRoot()) return $this->ns();
+		if ($this->isRoot()) return $this->ns();
 		//return $this->ns().'_'.md5($this->nodeId(false));
-		$rootDir =__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'.oidplusuploads'.\DIRECTORY_SEPARATOR;
+		
+		$rootDir = OIDplus::config()->getValue('FRDL_OIDPLUS_UPLOAD_FOLDER', 
+	    //	realpath(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'.oidplusuploads'.\DIRECTORY_SEPARATOR)
+			$_SERVER['DOCUMENT_ROOT'] 	.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR
+		);
+		
+		if(!is_dir($rootDir)){
+		  mkdir($rootDir, 0644, true);	
+		}
+		
 		$root = '*'.\DIRECTORY_SEPARATOR.'*'.\DIRECTORY_SEPARATOR;
 		
 		$altIds = $this->getAltIds();
@@ -34,19 +43,13 @@ trait CustomObjectType
 		
 		$dir = $rootDir . $root . implode(\DIRECTORY_SEPARATOR, $parts);
 	
-		return realpath($dir);
+		
+		
+		return \webfan\hps\patch\Fs::getRelativePath(getcwd().\DIRECTORY_SEPARATOR.'userdata'.\DIRECTORY_SEPARATOR.'attachments.\DIRECTORY_SEPARATOR', $dir);
 	}
-  
-	public function __call($n, $p) {		 
-		if(isset($this->oidObject) && is_callable([$this->oidObject, $n])){
-			 return call_user_func_array([$this->oidObject, $n], $p);
-		 }else{
-			  throw new \Exception(sprintf('Magic function %s does not resolve to callable in '.__METHOD__, $n));
-		 }
-	}  
-  
-  
-  public function filter( $rootId, array $namespaces = [], $targetProperty = 'children', &$index = null ) : array 
+	
+
+	public function filter( $rootId, array $namespaces = [], $targetProperty = 'children', &$index = null ) : array 
 	{
 		$out =[];
 	
@@ -81,9 +84,8 @@ trait CustomObjectType
 				
 		
 		return $out;
-	}
-  
-  		
+	}		
+			
 	public function getSubRoots():array{
 	  return  [
 			[$this->oid, ['*','oid', 'weid', 'host'], 'children'],
@@ -103,6 +105,16 @@ trait CustomObjectType
 		    array_push($subroots, $r2);
 	   }   
 		return $subroots;
-	} 
-  
+	}
+	
+
+
+	
+	public function __call($n, $p) {		 
+		if(is_callable([$this->oidObject, $n])){
+			 return call_user_func_array([$this->oidObject, $n], $p);
+		 }else{
+			  throw new \Exception(sprintf('Magic function %s does not resolve to callable in '.__METHOD__, $n));
+		 }
+	}		
 }
