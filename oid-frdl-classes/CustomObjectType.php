@@ -48,8 +48,7 @@ protected function getRelativePath($from, $to){
 		//return $this->ns().'_'.md5($this->nodeId(false));
 		
 		$rootDir = OIDplus::config()->getValue('FRDL_OIDPLUS_UPLOAD_FOLDER', 
-	    //	realpath(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'.oidplusuploads'.\DIRECTORY_SEPARATOR)
-			$_SERVER['DOCUMENT_ROOT'] 	.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'.oidplusuploads'.\DIRECTORY_SEPARATOR
+	        	$_SERVER['DOCUMENT_ROOT'] 	.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'.oidplusuploads'.\DIRECTORY_SEPARATOR
 		);
 		
 		if(!is_dir($rootDir)){
