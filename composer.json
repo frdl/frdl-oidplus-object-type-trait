@@ -1,0 +1,32 @@
+{
+  "name": "frdl/frdl-oidplus-object-type-trait",
+  "description": "OIDplusObjectTypePlugin Helpers and Trait",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Till Wehowski",
+      "email": "software@frdl.de",
+      "homepage": "https://frdl.de"
+    },
+	{
+	  "name" : "Daniel Marschall",
+	  "homepage" : "https://www.viathinksoft.com"		  
+	}
+  ],
+  "repositories": [{
+    "type": "composer",
+    "url": "https://packages.frdl.de"
+  }],
+  "require": {
+    "php": ">=7.3"
+  },
+  "require-dev": {
+  
+  },
+  "autoload": {
+  	"classmap"  : ["oid-frdl-classes/"]
+  },
+  "autoload-dev": {
+
+  }
+}
