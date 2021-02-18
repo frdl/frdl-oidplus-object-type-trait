@@ -207,59 +207,6 @@ abstract class AbstractWeidSubContracts extends OIDplusObject implements WeidWeb
 	}	
 	
 
-	public function filter( $rootId, array $namespaces = [], $targetProperty = 'children', &$index = null ) : array 
-	{
-		$out =[];
-	
-		
-		if (!OIDplus::baseConfig()->getValue('OBJECT_CACHING', true)) {
-			$res = OIDplus::db()->query("select id from ###objects where parent = ?", array($rootId));
-			while ($row = $res->fetch_array()) {
-				$index[$row['id']] = OIDplusObject::parse($row['id']);				
-				if (!$obj || (!in_array($obj::ns(),$namespaces) && !in_array('*',$namespaces) )) continue;
-				/*
-				$index[$row['id']] = $obj;
-
-				$index[\spl_object_id( $obj )] = $obj;
-				
-			    $out[$row['id']]=  $obj;
-				$out[\spl_object_id( $obj )]=  $obj;
-	            $out[$obj::ns()]=  $obj;   
-				$out[$targetProperty]= $obj;
-				$out[$obj->nodeId(true)] =  $obj;
-				$out[$rootId] = $obj;
-				*/
-			}
-		} else {
-			static::buildObjectInformationCache();
-
-			foreach (static::$object_info_cache as $id => list($confidential, $parent, $ra_email, $title)) {
-				if ($parent === $rootId) {
-					$index[$id]  = OIDplusObject::parse($id);	
-					if (!$obj || (!in_array($obj::ns(),$namespaces) && !in_array('*',$namespaces) )) continue;
-			/*
-				$index[$id]  =$obj;
-
-			    $index[\spl_object_id( $obj )] = $obj;
-				
-			    $out[$id]=  $obj;
-				$out[\spl_object_id( $obj )]=  $obj;
-	            $out[$obj::ns()]=  $obj;   
-				$out[$targetProperty]= $obj;
-				$out[$obj->nodeId(true)] =  $obj;
-				$out[$rootId] = $obj;
-					*/
-				}
-			}
-		}
-		
-				
-		
-		return $out;
-	}		
-			
-	
-	
 	public function getAltIds() {
 		 //  if ($this->isRoot()) return call_user_func_array([$this->oidObject, __FUNCTION__], func_get_args());
 	  //	$ids = parent::getAltIds();
