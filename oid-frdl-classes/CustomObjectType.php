@@ -52,7 +52,7 @@ protected function getRelativePath($from, $to){
 		);
 		
 		if(!is_dir($rootDir)){
-		  mkdir($rootDir, 0644, true);	
+		  mkdir($rootDir, 0666, true);	
 		}
 		
 		$root = '*'.\DIRECTORY_SEPARATOR.'*'.\DIRECTORY_SEPARATOR;
