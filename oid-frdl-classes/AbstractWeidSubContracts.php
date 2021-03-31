@@ -350,7 +350,12 @@ $this->getDotNotation()
 
 	
 	public function afterObjectDelete($id){
-		
+		$dir = $this->getDirectoryName(false);
+		$files = globe(rtrim($dir, '/\\ ' )."/*");
+		 foreach($files as $file){
+		    unlink($file);	
+		 }
+		rmdir($dir);
 	}
  	     
 	public function beforeObjectUpdateSuperior($id, &$params){
