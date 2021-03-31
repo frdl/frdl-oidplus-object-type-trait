@@ -83,7 +83,7 @@ protected function getRelativePath($from, $to){
 		
 		$path = $this->getRelativePath(getcwd().\DIRECTORY_SEPARATOR.'userdata'.\DIRECTORY_SEPARATOR.'attachments.\DIRECTORY_SEPARATOR', $dir);
 		if(true===$create && !is_dir($path) ){
-		  mkdir(realpath($path),$chmod,true );	
+		  mkdir($path,$chmod,true );	
 		}
 		return $path;
 	}
