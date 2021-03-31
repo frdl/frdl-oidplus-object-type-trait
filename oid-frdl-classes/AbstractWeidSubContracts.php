@@ -112,6 +112,8 @@ abstract class AbstractWeidSubContracts extends OIDplusObject implements WeidWeb
 		$this->oidObject = new OIDplusOid($this->oid);
         //$this->oid = $this->weid;
 		 
+		  $this->oidObject->getDirectoryName(true, 0755);
+		 
 		 return  $this->oidObject;
 	}	
 	
