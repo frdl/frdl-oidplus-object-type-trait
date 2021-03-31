@@ -48,11 +48,11 @@ protected function getRelativePath($from, $to){
 		//return $this->ns().'_'.md5($this->nodeId(false));
 		
 		$rootDir = OIDplus::config()->getValue('FRDL_OIDPLUS_UPLOAD_FOLDER', 
-	        	$_SERVER['DOCUMENT_ROOT'] 	.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'.oidplusuploads'.\DIRECTORY_SEPARATOR
+	        	$_SERVER['DOCUMENT_ROOT'] 	.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'oidplusuploads'.\DIRECTORY_SEPARATOR
 		);
 		
 		if(!is_dir($rootDir)){
-		  mkdir($rootDir, 0666, true);	
+		  mkdir($rootDir,/* $chmod */ 0777, true);	
 		}
 		
 		$root = '*'.\DIRECTORY_SEPARATOR.'*'.\DIRECTORY_SEPARATOR;
