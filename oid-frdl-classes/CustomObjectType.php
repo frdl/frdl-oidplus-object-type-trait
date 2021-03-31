@@ -43,7 +43,7 @@ protected function getRelativePath($from, $to){
 }	
 	
 	
-	public function getDirectoryName($create=false, $chmod=0755) {
+	public function getDirectoryName($create=false, $chmod=0777) {
 		if ($this->isRoot()) return $this->ns();
 		//return $this->ns().'_'.md5($this->nodeId(false));
 		
