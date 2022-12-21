@@ -62,7 +62,7 @@ use frdl\OidplusTools\Contracts\WeidWebfantizeExtensionInterface;
 use frdl\OidplusTools\ObjectsCache as ObjectsCache;
 use Exception;
 #use OIDplus;
-use OIDplusException;
+#use OIDplusException;
 #use OIDplusObject;
 use OIDplusOid;
 use OIDplusAltId;
