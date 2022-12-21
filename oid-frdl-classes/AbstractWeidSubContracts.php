@@ -51,12 +51,19 @@
 */
 namespace frdl\OidplusTools\Contracts;
 
+use Frdlweb;
+use ViaThinkSoft\OIDplus;
+use ViaThinkSoft\OIDplus\OIDplusObjectTypePlugin;
+use ViaThinkSoft\OIDplus\OIDplusPagePluginPublic;
+use ViaThinkSoft\OIDplus\OIDplusObject;
+use ViaThinkSoft\OIDplus\OIDplusException;
+
 use frdl\OidplusTools\Contracts\WeidWebfantizeExtensionInterface;
 use frdl\OidplusTools\ObjectsCache as ObjectsCache;
 use Exception;
-use OIDplus;
+#use OIDplus;
 use OIDplusException;
-use OIDplusObject;
+#use OIDplusObject;
 use OIDplusOid;
 use OIDplusAltId;
 use Wehowski\WEID as WeidOidConverter;
@@ -111,8 +118,6 @@ abstract class AbstractWeidSubContracts extends OIDplusObject implements WeidWeb
 	
 		$this->oidObject = new OIDplusOid($this->oid);
         //$this->oid = $this->weid;
-		 
-		  $this->oidObject->getDirectoryName(true, 0755);
 		 
 		 return  $this->oidObject;
 	}	
@@ -209,6 +214,9 @@ abstract class AbstractWeidSubContracts extends OIDplusObject implements WeidWeb
 	}	
 	
 
+
+	
+	
 	public function getAltIds() {
 		 //  if ($this->isRoot()) return call_user_func_array([$this->oidObject, __FUNCTION__], func_get_args());
 	  //	$ids = parent::getAltIds();
@@ -350,12 +358,7 @@ $this->getDotNotation()
 
 	
 	public function afterObjectDelete($id){
-		$dir = $this->getDirectoryName(false);
-		$files = globe(rtrim($dir, '/\\ ' )."/*");
-		 foreach($files as $file){
-		    unlink($file);	
-		 }
-		rmdir($dir);
+		
 	}
  	     
 	public function beforeObjectUpdateSuperior($id, &$params){
